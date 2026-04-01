@@ -1,0 +1,21 @@
+{
+    "users": [{
+        "id": 1,
+        "name": "Flora Mariah",
+        "email": "floramariah@study.com"
+    }],
+    "studies": [{
+        "id":1,
+        "userId": 1,
+        "title": "React",
+        "subject": "Frontend",
+        "date": "2026-03-26"
+    }],
+    "terms": [{
+        "id":1,
+        "studyId":1,
+        "word": "Hooks",
+        "meaning": "algo que permite usar estado e ciclo de vida em componentes funcionais",
+        "learned": false
+    }]
+}

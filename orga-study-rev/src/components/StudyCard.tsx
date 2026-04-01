@@ -1,23 +1,35 @@
-import type {Study} from "../types/study.ts";
+import type { Study } from "../types/study.ts";
 
-interface StudyCardProps{
-    study: Study;
-    onDelete: (id:number) => void;
+interface StudyCardProps {
+  study: Study;
+  onDelete: (id: number) => void;
+  onEdit: (study: Study) => void;
 }
 
+function StudyCard({ study, onDelete, onEdit }: StudyCardProps) {
+  return (
+    <div className="study-card">
+  <div className="study-header">
+    <div>
+      <h2 className="study-title">{study.title}</h2>
+      <span className="study-subject">{study.subject}</span>
+    </div>
 
-function StudyCard({study, onDelete}: StudyCardProps){
-    return(
-        <div>
-            <h2>ID: {study.id}</h2>
-            <p>Título: {study.title}</p>
-            <p>Assunto: {study.subject}</p>
-            <p>Data de criação: {study.date}</p>
-            <p>Usuario: {study.userId}</p>
+    <span className="study-date">{study.date}</span>
+  </div>
 
-            <button onClick={() => onDelete(study.id)}>Deletar</button>
-        </div>
-    )
+  <div className="study-actions">
+    <button className="btn-danger" onClick={() => onDelete(study.id)}>
+      Deletar
+    </button>
+
+    <button className="btn-secondary" onClick={() => onEdit(study)}>
+      Editar
+    </button>
+  </div>
+</div>
+
+  );
 }
 
 

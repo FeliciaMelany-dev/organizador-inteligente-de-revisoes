@@ -3,6 +3,7 @@ import type { Study } from "./types/study.ts";
 import type { User } from "./types/user.ts";
 import type { Term } from "./types/term.ts";
 import { api } from "./services/api.ts";
+import "./App.css";
 
 import StudyCard from "./components/StudyCard.tsx";
 import UserCard from "./components/UserCard.tsx";
@@ -15,6 +16,8 @@ function App() {
 
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState("");
+  const [filter, setFilter] = useState("all");
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   const [loading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -75,89 +78,157 @@ function App() {
     }
   };
 
-  const handleCreateStudy = async () => {
+  const handleSaveStudy = async () => {
+    if (!title || !subject) {
+      setError("Preencha todos os campos");
+      return;
+    }
+
     try {
-      const newStudy = {
-        userId: 1,
-        title,
-        subject,
-        date: new Date().toISOString().split("T")[0],
-      };
+      if (editingId) {
+        const updatedStudy = {
+          id: editingId,
+          userId: 1,
+          title,
+          subject,
+          date: new Date().toISOString().split("T")[0],
+        };
 
-      const createdStudy = await api.post<Study>("/studies", newStudy);
+        const newStudy = await api.put<Study>(
+          `/studies/${editingId}`,
+          updatedStudy,
+        );
 
-      if (!title || !subject) {
-        setError("Preencha todos os campos");
-        return;
+        setStudies((prev) =>
+          prev.map((s) => (s.id === editingId ? newStudy : s)),
+        );
+
+        setEditingId(null);
+      } else {
+        const newStudy = {
+          userId: 1,
+          title,
+          subject,
+          date: new Date().toISOString().split("T")[0],
+        };
+
+        const createdStudy = await api.post<Study>("/studies", newStudy);
+
+        setStudies((prev) => [...prev, createdStudy]);
       }
 
-      setStudies((prev) => [...prev, createdStudy]);
       setTitle("");
       setSubject("");
     } catch (err) {
-      setError("Erro ao criar estudo");
+      setError("Erro ao salvar estudo");
     }
   };
 
   const handleToggleLearned = async (id: number, learned: boolean) => {
-  try {
-    const updatedTerm = await api.patch<Term>(`/terms/${id}`, {
-      learned: !learned,
-    });
+    try {
+      const updatedTerm = await api.patch<Term>(`/terms/${id}`, {
+        learned: !learned,
+      });
 
-    setTerms((prev) =>
-      prev.map((term) =>
-        term.id === id ? updatedTerm : term
-      )
-    );
-  } catch (err) {
-    setError("Erro ao atualizar termo");
-  }
-};
+      setTerms((prev) =>
+        prev.map((term) => (term.id === id ? updatedTerm : term)),
+      );
+    } catch (err) {
+      setError("Erro ao atualizar termo");
+    }
+  };
 
+  const filteredTerms = terms.filter((term) => {
+    if (filter === "learned") return term.learned;
+    if (filter === "notLearned") return !term.learned;
+    return true;
+  });
 
   return (
-    <div>
-      <h1>Organizador de Estudos</h1>
-
+    <div className="container">
       <div>
-        <h2>Criar Estudo</h2>
+        <h1>Organizador de Estudos</h1>
 
-        <input
-          type="text"
-          placeholder="Título"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+        <div className="form section">
+          <h2>Criar Estudo</h2>
+          <div className="form-row">
+            <input
+              className="input"
+              type="text"
+              placeholder="Título"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
 
-        <input
-          type="text"
-          placeholder="Assunto"
-          value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-        />
+            <input
+              className="input"
+              type="text"
+              placeholder="Assunto"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+            />
+          </div>
+          <button className="btn-primary" onClick={handleSaveStudy}>
+            {editingId ? "Salvar edição" : "Criar estudo"}
+          </button>
+        </div>
 
-        <button onClick={handleCreateStudy}>Criar Estudo</button>
+        {loading && <p>Carregando estudos...</p>}
+        {error && <p>{error}</p>}
+        {!loading && !error && studies.length === 0 && (
+          <p>Nenhum estudo encontrado. Comece adicionando um!</p>
+        )}
+        
+        <div className="grid">
+          {studies.map((study) => (
+            <StudyCard
+              key={study.id}
+              study={study}
+              onDelete={handleDeleteStudy}
+              onEdit={(study) => {
+                setTitle(study.title);
+                setSubject(study.subject);
+                setEditingId(study.id);
+              }}
+            />
+          ))}
+        </div>
+        {users.map((user) => (
+          <UserCard key={user.id} user={user} onDelete={handleDeleteUser} />
+        ))}
+
+        <div className="filter-tabs">
+          <button
+            className={`filter-tab ${filter === "all" ? "active" : ""}`}
+            onClick={() => setFilter("all")}
+          >
+            Todos
+          </button>
+
+          <button
+            className={`filter-tab ${filter === "learned" ? "active" : ""}`}
+            onClick={() => setFilter("learned")}
+          >
+            Aprendidos
+          </button>
+
+          <button
+            className={`filter-tab ${filter === "notLearned" ? "active" : ""}`}
+            onClick={() => setFilter("notLearned")}
+          >
+            Não aprendidos
+          </button>
+        </div>
+        <h2>Termos</h2>
+        {filteredTerms.map((term) => (
+          <TermCard
+            key={term.id}
+            term={term}
+            onDelete={handleDeleteTerm}
+            onToggle={handleToggleLearned}
+          />
+        ))}
       </div>
-
-      {loading && <p>Carregando estudos...</p>}
-      {error && <p>{error}</p>}
-      {!loading && !error && studies.length === 0 && (
-        <p>Nenhum estudo encontrado. Comece adicionando um!</p>
-      )}
-
-      {studies.map((study) => (
-        <StudyCard key={study.id} study={study} onDelete={handleDeleteStudy} />
-      ))}
-
-      {users.map((user) => (
-        <UserCard key={user.id} user={user} onDelete={handleDeleteUser} />
-      ))}
-
-      {terms.map((term) => (
-        <TermCard key={term.id} term={term} onDelete={handleDeleteTerm}
-         onToggle={handleToggleLearned} />
-      ))}
     </div>
   );
 }

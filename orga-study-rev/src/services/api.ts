@@ -41,6 +41,21 @@ export const api = {
   if (!response.ok) throw new Error(`Erro ao atualizar ${endpoint}`);
 
   return response.json();
+  },
+
+  put: async <T>(endpoint: string, data: T): Promise<T> => {
+  const response = await fetch(`${BASE_URL}${endpoint}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) throw new Error(`Erro ao substituir ${endpoint}`);
+
+  return response.json();
 }
+
 
 };

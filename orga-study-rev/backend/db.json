@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Flora Mariah",
+      "email": "floramariah@study.com"
+    }
+  ],
+  "studies": [
+    {
+      "id": "1",
+      "userId": "1",
+      "title": "Node.js",
+      "subject": "Programação-Backend",
+      "date": "01-04-2026"
+    }
+  ],
+  "terms": [
+    {
+      "id": "1",
+      "studyId": 1,
+      "word": "Hooks",
+      "meaning": "algo que permite usar estado e ciclo de vida em componentes funcionais",
+      "learned": false
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

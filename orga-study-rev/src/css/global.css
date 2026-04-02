@@ -10,13 +10,12 @@ body {
   color: #f1f5f9;
 }
 
-/* reset */
 input,
 button {
   all: unset;
 }
 
-/* scrollbar */
+
 ::-webkit-scrollbar {
   width: 8px;
 }

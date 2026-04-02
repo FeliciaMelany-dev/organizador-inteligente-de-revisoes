@@ -153,7 +153,7 @@ function App() {
         <h1 className={style.mainTitle}>Organizador de Estudos</h1>
       </header>
 
-      {/* Seção de Formulário - Ajustada para o Grid e Acessibilidade */}
+      {}
       <section className={style.formCard}>
         <h2 className={style.formTitle}>Criar Estudo</h2>
 
@@ -188,14 +188,14 @@ function App() {
         </button>
       </section>
 
-      {/* Gerenciamento de Estados de Loading e Erro (Requisito da Rubrica) */}
+      {}
       {loading && <p className={style.statusMsg}>Carregando estudos...</p>}
       {error && <p className={style.errorMsg}>{error}</p>}
       {!loading && !error && studies.length === 0 && (
         <p className={style.statusMsg}>Nenhum estudo encontrado. Comece adicionando um!</p>
       )}
 
-      {/* Lista de Estudos */}
+      {}
       <section className={style.section}>
         <div className={style.grid}>
           {studies.map((study) => (
@@ -213,14 +213,14 @@ function App() {
         </div>
       </section>
 
-      {/* Seção de Usuário */}
+      {}
       <section className={style.section}>
         {users.map((user) => (
           <UserCard key={user.id} user={user} onDelete={handleDeleteUser} />
         ))}
       </section>
 
-      {/* Filtros e Termos */}
+      {}
       <section className={style.section}>
         <div className={style.filterTabs}>
           <button

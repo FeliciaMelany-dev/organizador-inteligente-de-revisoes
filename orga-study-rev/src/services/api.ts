@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://organizador-inteligente-de-revisoes-3.onrender.com";
 
 export const api = {
   get: async <T>(endpoint: string): Promise<T> => {

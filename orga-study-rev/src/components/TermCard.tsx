@@ -1,4 +1,5 @@
 import type { Term } from "../types/term";
+import style from "../css/App.module.css"
 
 interface TermCardProps {
   term: Term;
@@ -8,7 +9,7 @@ interface TermCardProps {
 
 function TermCard({ term, onDelete, onToggle }: TermCardProps) {
   return (
-    <div className="term-card">
+    <div className={style.termCard}>
       <h2>{term.word}</h2>
       <p>{term.meaning}</p>
 
@@ -16,11 +17,17 @@ function TermCard({ term, onDelete, onToggle }: TermCardProps) {
         Status: {term.learned ? "Aprendido" : "Não aprendido"}
       </p>
 
-      <button className="btn-danger" onClick={() => onToggle(term.id, term.learned)}>
+      <button
+        className={style.btnSecondary}
+        onClick={() => onToggle(term.id, term.learned)}
+      >
         Marcar como {term.learned ? "não aprendido" : "aprendido"}
       </button>
 
-      <button className="btn-danger" onClick={() => onDelete(term.id)}>
+      <button
+        className={style.btnDanger}
+        onClick={() => onDelete(term.id)}
+      >
         Deletar
       </button>
     </div>

@@ -1,0 +1,221 @@
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+
+.mainTitle {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.section {
+  margin-top: 40px;
+}
+
+.sectionTitle {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.formCard {
+  background: #1e293b;
+  padding: 28px;
+  border-radius: 16px;
+  border: 1px solid #334155;
+  margin-bottom: 30px;
+}
+
+.formTitle {
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.formRow {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.inputGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+
+.input {
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 8px;
+}
+
+
+.btnPrimary {
+  background: #3b82f6;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btnPrimary:hover {
+  background: #2563eb;
+}
+
+.btnDanger {
+  background: #ef4444;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btnDanger:hover {
+  background: #dc2626;
+}
+
+.btnSecondary {
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btnSecondary:hover {
+  background: #334155;
+}
+
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+
+.studyCard {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  padding: 20px;
+  transition: 0.2s;
+}
+
+.studyCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.studyHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.studyTitle {
+  font-size: 1.2rem;
+}
+
+.studySubject {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.studyDate {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.studyActions {
+  display: flex;
+  gap: 10px;
+}
+
+
+.termCard {
+  background: #020617;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.termCard:hover {
+  border-color: #3b82f6;
+}
+
+
+.userInfo {
+  background: #1e293b;
+  border: 1px solid #334155;
+  padding: 20px;
+  border-radius: 16px;
+  max-width: 400px;
+}
+
+.userDetail {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.userLabel {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.userValue {
+  color: #f1f5f9;
+}
+
+.filterTabs {
+  display: flex;
+  gap: 10px;
+  margin: 30px 0;
+}
+
+.filterTab {
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.filterTab:hover {
+  background: #334155;
+}
+
+.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+
+.errorMsg {
+  color: #ef4444;
+}
+
+.statusMsg {
+  color: #94a3b8;
+}

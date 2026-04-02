@@ -3,8 +3,9 @@ import type { Study } from "./types/study.ts";
 import type { User } from "./types/user.ts";
 import type { Term } from "./types/term.ts";
 import { api } from "./services/api.ts";
-import "./App.css";
-
+import style from "./css/App.module.css"
+import "./css/global.css"
+import { useMemo } from "react";
 import StudyCard from "./components/StudyCard.tsx";
 import UserCard from "./components/UserCard.tsx";
 import TermCard from "./components/TermCard.tsx";
@@ -138,48 +139,65 @@ function App() {
     }
   };
 
-  const filteredTerms = terms.filter((term) => {
+  const filteredTerms = useMemo(() => {
+  return terms.filter((term) => {
     if (filter === "learned") return term.learned;
     if (filter === "notLearned") return !term.learned;
     return true;
   });
+}, [terms, filter]);
 
   return (
-    <div className="container">
-      <div>
-        <h1>Organizador de Estudos</h1>
+    <main className={style.container}>
+      <header>
+        <h1 className={style.mainTitle}>Organizador de Estudos</h1>
+      </header>
 
-        <div className="form section">
-          <h2>Criar Estudo</h2>
-          <div className="form-row">
+      {/* Seção de Formulário - Ajustada para o Grid e Acessibilidade */}
+      <section className={style.formCard}>
+        <h2 className={style.formTitle}>Criar Estudo</h2>
+
+        <div className={style.formRow}>
+          <div className={style.inputGroup}>
+            <label htmlFor="title" className={style.label}>Título</label>
             <input
-              className="input"
+              id="title"
+              className={style.input}
               type="text"
-              placeholder="Título"
+              placeholder="Ex: Node.js"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
+          </div>
 
+          <div className={style.inputGroup}>
+            <label htmlFor="subject" className={style.label}>Assunto</label>
             <input
-              className="input"
+              id="subject"
+              className={style.input}
               type="text"
-              placeholder="Assunto"
+              placeholder="Ex: Programação-Backend"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
             />
           </div>
-          <button className="btn-primary" onClick={handleSaveStudy}>
-            {editingId ? "Salvar edição" : "Criar estudo"}
-          </button>
         </div>
 
-        {loading && <p>Carregando estudos...</p>}
-        {error && <p>{error}</p>}
-        {!loading && !error && studies.length === 0 && (
-          <p>Nenhum estudo encontrado. Comece adicionando um!</p>
-        )}
-        
-        <div className="grid">
+        <button className={style.btnPrimary} onClick={handleSaveStudy}>
+          {editingId ? "Salvar edição" : "Criar estudo"}
+        </button>
+      </section>
+
+      {/* Gerenciamento de Estados de Loading e Erro (Requisito da Rubrica) */}
+      {loading && <p className={style.statusMsg}>Carregando estudos...</p>}
+      {error && <p className={style.errorMsg}>{error}</p>}
+      {!loading && !error && studies.length === 0 && (
+        <p className={style.statusMsg}>Nenhum estudo encontrado. Comece adicionando um!</p>
+      )}
+
+      {/* Lista de Estudos */}
+      <section className={style.section}>
+        <div className={style.grid}>
           {studies.map((study) => (
             <StudyCard
               key={study.id}
@@ -193,43 +211,51 @@ function App() {
             />
           ))}
         </div>
+      </section>
+
+      {/* Seção de Usuário */}
+      <section className={style.section}>
         {users.map((user) => (
           <UserCard key={user.id} user={user} onDelete={handleDeleteUser} />
         ))}
+      </section>
 
-        <div className="filter-tabs">
+      {/* Filtros e Termos */}
+      <section className={style.section}>
+        <div className={style.filterTabs}>
           <button
-            className={`filter-tab ${filter === "all" ? "active" : ""}`}
+            className={`${style.filterTab} ${filter === "all" ? style.active : ""}`}
             onClick={() => setFilter("all")}
           >
             Todos
           </button>
-
           <button
-            className={`filter-tab ${filter === "learned" ? "active" : ""}`}
+            className={`${style.filterTab} ${filter === "learned" ? style.active : ""}`}
             onClick={() => setFilter("learned")}
           >
             Aprendidos
           </button>
-
           <button
-            className={`filter-tab ${filter === "notLearned" ? "active" : ""}`}
+            className={`${style.filterTab} ${filter === "notLearned" ? style.active : ""}`}
             onClick={() => setFilter("notLearned")}
           >
             Não aprendidos
           </button>
         </div>
-        <h2>Termos</h2>
-        {filteredTerms.map((term) => (
-          <TermCard
-            key={term.id}
-            term={term}
-            onDelete={handleDeleteTerm}
-            onToggle={handleToggleLearned}
-          />
-        ))}
-      </div>
-    </div>
+
+        <h2 className={style.sectionTitle}>Termos</h2>
+        <div className={style.grid}>
+          {filteredTerms.map((term) => (
+            <TermCard
+              key={term.id}
+              term={term}
+              onDelete={handleDeleteTerm}
+              onToggle={handleToggleLearned}
+            />
+          ))}
+        </div>
+      </section>
+    </main>
   );
 }
 

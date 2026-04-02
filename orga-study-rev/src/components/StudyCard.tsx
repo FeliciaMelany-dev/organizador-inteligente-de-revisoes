@@ -1,4 +1,5 @@
 import type { Study } from "../types/study.ts";
+import style from "../css/App.module.css";
 
 interface StudyCardProps {
   study: Study;
@@ -8,29 +9,33 @@ interface StudyCardProps {
 
 function StudyCard({ study, onDelete, onEdit }: StudyCardProps) {
   return (
-    <div className="study-card">
-  <div className="study-header">
-    <div>
-      <h2 className="study-title">{study.title}</h2>
-      <span className="study-subject">{study.subject}</span>
+    <div className={style.studyCard}>
+      <div className={style.studyHeader}>
+        <div>
+          <h2 className={style.studyTitle}>{study.title}</h2>
+          <span className={style.studySubject}>{study.subject}</span>
+        </div>
+
+        <span className={style.studyDate}>{study.date}</span>
+      </div>
+
+      <div className={style.studyActions}>
+        <button
+          className={style.btnDanger}
+          onClick={() => onDelete(study.id)}
+        >
+          Deletar
+        </button>
+
+        <button
+          className={style.btnSecondary}
+          onClick={() => onEdit(study)}
+        >
+          Editar
+        </button>
+      </div>
     </div>
-
-    <span className="study-date">{study.date}</span>
-  </div>
-
-  <div className="study-actions">
-    <button className="btn-danger" onClick={() => onDelete(study.id)}>
-      Deletar
-    </button>
-
-    <button className="btn-secondary" onClick={() => onEdit(study)}>
-      Editar
-    </button>
-  </div>
-</div>
-
   );
 }
-
 
 export default StudyCard;
